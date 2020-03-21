@@ -1,4 +1,6 @@
 # Assets Scanner
+[![Build Status](https://api.cirrus-ci.com/github/littleGnAl/assets-scanner.svg)](https://cirrus-ci.com/github/littleGnAl/assets-scanner)
+
 As you know, you need to use the image path to [load image](https://flutter.dev/docs/development/ui/assets-and-images#loading-images-1) in Flutter
 , e.g., `AssetImage('graphics/background.png')`. However, this approach is prone to errors, such as the spelling of the path, you can only find this error after the program runs, and you may not be able to intuitively know which picture this is through the path. Assets Scanner helps you generate constants for assets, reducing the probability of misspellings. At the same time, you can hover over the constants to preview the images more intuitively.
 
