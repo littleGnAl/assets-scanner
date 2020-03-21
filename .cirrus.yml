@@ -9,4 +9,4 @@ check_task:
     - cd assets_scanner
     - flutter packages get
     - flutter analyze
-    - pub test
+    - pub run test
