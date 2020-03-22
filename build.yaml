@@ -12,7 +12,7 @@ builders:
   # name of the builder
   assets_generator:
     # library URI containing the builder - maps to `lib/builder.dart`
-    import: "package:assets_scanner/builder.dart"
+    import: "package:assets_scanner/assets_scanner_builder.dart"
     # Name of the function in the above library to call.
     builder_factories: ["assetsRootBuilder"]
     # The mapping from the source extension to the generated file extension

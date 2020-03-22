@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 
-import 'package:assets_scanner/builder.dart';
+import 'package:assets_scanner/assets_scanner_builder.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
 import 'package:path/path.dart' as p;

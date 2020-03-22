@@ -30,7 +30,7 @@ dev_dependencies:
 
   build_runner: ^1.8.0
   assets_scanner:
-    path: ../assets_scanner
+    path: ../
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

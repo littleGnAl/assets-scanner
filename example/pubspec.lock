@@ -32,7 +32,7 @@ packages:
   assets_scanner:
     dependency: "direct dev"
     description:
-      path: "../assets_scanner"
+      path: ".."
       relative: true
     source: path
     version: "0.0.1"
