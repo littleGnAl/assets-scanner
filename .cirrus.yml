@@ -6,7 +6,6 @@ container:
 check_task:
   flutter_doctor_script: flutter doctor -v
   flutter_analyze_script:
-    - cd assets_scanner
     - flutter packages get
     - flutter analyze
     - pub run test
