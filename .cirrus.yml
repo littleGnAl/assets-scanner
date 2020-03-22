@@ -7,6 +7,8 @@ check_task:
   flutter_doctor_script: flutter doctor -v
   flutter_analyze_script:
     - flutter packages get
+    - cd example
     - flutter packages pub run build_runner build
+    - cd ..
     - flutter analyze
     - pub run test
