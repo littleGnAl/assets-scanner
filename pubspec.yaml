@@ -1,6 +1,6 @@
 name: assets_scanner
 description: Assets Scanner helps you generate constants for assets, reducing the probability of misspellings. At the same time, you can hover over the constants to preview the images more intuitively.
-version: 0.0.1
+version: 0.0.2
 author: littleGnAl
 homepage: https://github.com/littleGnAl/assets-scanner
 

@@ -109,4 +109,35 @@ void main() {
           decodedMatches(contains('CustomMainAssets')),
     });
   });
+
+  test("generate with isIgnoreComment", () async {
+    final src = {
+      '$_pkgName|assets/sub/alarm.svg': '123',
+      '$_pkgName|assets/sub/arrows.svg': '456',
+      '$_pkgName|lib/main.assets.dart': ''''
+  part "main.assets.g.dart";
+
+  const String assetPathPattern = "assets/sub/**";
+
+  const bool isIgnoreComment = true;
+  ''',
+    };
+
+    final builder = assetsRootBuilder(BuilderOptions.empty);
+    await testBuilder(builder, src, generateFor: {
+      '$_pkgName|lib/main.assets.dart'
+    }, outputs: {
+      '$_pkgName|lib/main.assets.generated.g.part': decodedMatches(endsWith(
+          'class MainAssets {\n'
+          '  static const package = "pkg";\n'
+          '\n'
+          '  static const alarm = "assets/sub/alarm.svg";\n'
+          '\n'
+          '  static const arrows = "assets/sub/arrows.svg";\n'
+          '\n'
+          '// ignore_for_file:lines_longer_than_80_chars,constant_identifier_names\n'
+          '}\n'
+          '')),
+    });
+  });
 }
