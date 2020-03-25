@@ -16,8 +16,6 @@ class AssetsGenerator extends Generator {
         library.element.topLevelElements.firstWhere((e) {
       return e is PropertyAccessorElement &&
           e.variable.isConst &&
-          // e.returnType.isDartCoreString &&
-          // e.displayName == propertyName
           testElement(e);
     }, orElse: () => null);
 
