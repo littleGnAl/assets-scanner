@@ -31,14 +31,6 @@ class AssetsGenerator extends Generator {
     final inputId = buildStep.inputId;
     if (!inputId.path.endsWith(".assets.dart")) return null;
 
-    // final assetPathPatternElement =
-    //     library.element.topLevelElements.firstWhere((e) {
-    //   return e is PropertyAccessorElement &&
-    //       e.variable.isConst &&
-    //       e.returnType.isDartCoreString &&
-    //       e.displayName == "assetPathPattern";
-    // }, orElse: () => null);
-
     final assetPathPattern = _findConstValue(
             library,
             (e) =>
@@ -51,13 +43,6 @@ class AssetsGenerator extends Generator {
                 e.returnType.isDartCoreBool &&
                 e.displayName == "isIgnoreComment")?.toBoolValue() ??
         false;
-
-    // final assetPathPattern =
-    //     (assetPathPatternElement as PropertyAccessorElement)
-    //             ?.variable
-    //             ?.computeConstantValue()
-    //             ?.toStringValue() ??
-    //         "assets/**";
 
     var fileName = inputId.pathSegments.last.replaceAll(".assets.dart", "");
     fileName = fileName.replaceAll(".", "_");
