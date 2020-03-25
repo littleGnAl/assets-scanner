@@ -25,10 +25,22 @@ part 'myasset.assets.g.dart';
 const String assetPathPattern = "another/assets/**";
 ```
 
+### Not generate comments for asset path
+You can add `isIgnoreComment` const and set it to `true` to ignore generate comments for the asset path:
+```dart
+// myasset.assets.dart
+
+part 'myasset.assets.g.dart';
+
+const bool isIgnoreComment = true;
+```
+
 ### Preview images
 Now, you can preview images by hovering to the constants:
 
 ![](art/asset-preview.gif)
+
+**NOTE:** This only work when `isIgnoreComment` const is `false`.
 
 ## License
     Copyright (C) 2020 littlegnal
