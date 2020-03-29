@@ -5,8 +5,8 @@ targets:
       assets_scanner|assets_generator:
         enabled: true
         # Only run this builder on the specified input.
-        generate_for:
-          include: ['**.assets.dart']
+        # generate_for:
+        #   include: ['**.assets.dart']
 
 builders:
   # name of the builder
@@ -14,11 +14,11 @@ builders:
     # library URI containing the builder - maps to `lib/builder.dart`
     import: "package:assets_scanner/assets_scanner_builder.dart"
     # Name of the function in the above library to call.
-    builder_factories: ["assetsRootBuilder"]
+    builder_factories: ["assetScannerBuilder"]
     # The mapping from the source extension to the generated file extension
-    build_extensions: {".assets.dart": [".generated.g.dart"]}
+    build_extensions: {r'$lib$': ["r.dart"]}
     # Will automatically run on any package that depends on it
     auto_apply: dependents
     # Generate the output directly into the package, not to a hidden cache dir
-    build_to: cache
-    applies_builders: ["source_gen|combining_builder"]
+    build_to: source
+    # applies_builders: ["source_gen|combining_builder"]

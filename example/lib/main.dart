@@ -1,4 +1,4 @@
-import 'package:example/main.assets.dart';
+import 'package:example/src/r.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -28,13 +28,13 @@ class MyApp extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Image(
-                  image: AssetImage(MainAssets.alarm_white),
+                  image: AssetImage(R.alarm_white),
                 ),
                 Image(
-                  image: AssetImage(MainAssets.baseline_3d_rotation_white),
+                  image: AssetImage(R.baseline_3d_rotation_white),
                 ),
                 Image(
-                  image: AssetImage(MainAssets.arrow_right_alt_white),
+                  image: AssetImage(R.arrow_right_alt_white),
                 ),
               ],
             ),
