@@ -114,7 +114,7 @@ class AssetsBuilder extends Builder {
         YamlList assetsList = flutterMap["assets"];
         for (final asset in assetsList.toSet()) {
           if (asset.endsWith("/")) {
-            globList.add(Glob("$asset**"));
+            globList.add(Glob("$asset*"));
           } else {
             globList.add(Glob(asset));
           }

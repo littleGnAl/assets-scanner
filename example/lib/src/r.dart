@@ -3,7 +3,8 @@
 class R {
   static const package = "example";
 
-  static const baseline_3d_rotation_white = "assets/baseline_3d_rotation_white.png";
+  static const baseline_3d_rotation_white =
+      "assets/baseline_3d_rotation_white.png";
 
   static const alarm_white = "assets/alarm_white.png";
 
