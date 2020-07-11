@@ -1,4 +1,4 @@
-## 1.1.0
+## 1.1.0+1
 Support [package assets](https://flutter.dev/docs/development/ui/assets-and-images#bundling-of-package-assets). 
 
 ## 1.0.1
