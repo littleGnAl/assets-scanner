@@ -1,3 +1,6 @@
+## 1.1.0
+Support [package assets](https://flutter.dev/docs/development/ui/assets-and-images#bundling-of-package-assets). 
+
 ## 1.0.1
 Fix the generated content not respect the directory behavior of assets, that describe on https://flutter.dev/docs/development/ui/assets-and-images#specifying-assets
 
