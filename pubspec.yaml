@@ -13,7 +13,7 @@ dependencies:
   glob: ^1.2.0
   analyzer: ^0.39.4
   yaml: ^2.2.0
-  meta: ^1.2.2
+  meta: ^1.1.8
 
 dev_dependencies:
   test: ^1.14.2
