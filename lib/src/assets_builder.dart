@@ -145,9 +145,15 @@ class AssetsBuilder extends Builder {
         // Ignore the parent path to make the property name shorter.
         String propertyName = assetPath
             .substring(assetPath.indexOf("/") + 1, assetPath.lastIndexOf("."))
-            .replaceAll('/', '_');
+            .replaceAll('/', '_').replaceAll('-','_');
+      
 
         if (propertyName.isNotEmpty) {
+          // check if start with number
+          if (int.tryParse(propertyName.substring(0,1))!=null){
+            propertyName = 'R'+propertyName;
+          }
+
           if (!options.ignoreComment) {
             assetPathsClass.writeln("  /// ![](${p.absolute(assetPath)})");
           }
