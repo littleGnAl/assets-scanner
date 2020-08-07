@@ -151,7 +151,7 @@ class AssetsBuilder extends Builder {
         if (propertyName.isNotEmpty) {
           // check if start with number
           if (int.tryParse(propertyName.substring(0,1))!=null){
-            propertyName = 'R'+propertyName;
+            propertyName = 'r_'+propertyName;
           }
 
           if (!options.ignoreComment) {
