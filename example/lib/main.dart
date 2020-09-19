@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
+// ignore: public_member_api_docs
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -40,13 +41,13 @@ class MyApp extends StatelessWidget {
           child: Center(
             child: Column(
               children: <Widget>[
-                Image(
+                const Image(
                   image: AssetImage(R.alarm_white),
                 ),
-                Image(
+                const Image(
                   image: AssetImage(R.baseline_3d_rotation_white),
                 ),
-                Image(
+                const Image(
                   image: AssetImage(R.arrow_right_alt_white),
                 ),
               ],

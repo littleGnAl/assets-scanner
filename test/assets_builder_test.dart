@@ -42,44 +42,44 @@ void main() {
     builder = assetScannerBuilder(BuilderOptions.empty);
   });
 
-  group("AssetsBuilder default", () {
-    test("generate nothing if no assets values in pubspec.yaml", () async {
-      await testBuilder(builder, {
+  group('AssetsBuilder default', () {
+    test('generate nothing if no assets values in pubspec.yaml', () async {
+      await testBuilder(builder, <String, dynamic>{
         '$_pkgName|pubspec.yaml': '',
         ..._assets,
-      }, outputs: {});
+      }, outputs: <String, dynamic>{});
     });
 
-    test("generate r.dart", () async {
+    test('generate r.dart', () async {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         ..._pubspecFile
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'),
       });
     });
 
-    test("generate r.dart with duplicate assets value", () async {
+    test('generate r.dart with duplicate assets value', () async {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         '$_pkgName|pubspec.yaml': '''
         flutter:
@@ -93,55 +93,55 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'),
       });
     });
 
-    test("generate r.dart with sub assets but not define in the pubspec.yaml",
+    test('generate r.dart with sub assets but not define in the pubspec.yaml',
         () async {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         '$_pkgName|assets/sub/alarm_white.png': '123',
         ..._pubspecFile
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'),
       });
     });
 
-    test("generate r.dart with sub assets", () async {
+    test('generate r.dart with sub assets', () async {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
       final subPathAlarm = p.join(dir, 'assets/sub/alarm_white.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         '$_pkgName|assets/sub/alarm_white.png': '123',
         '$_pkgName|pubspec.yaml': '''
@@ -152,33 +152,33 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '  /// ![]($subPathAlarm)\n'
-            '  static const sub_alarm_white = "assets/sub/alarm_white.png";\n'
+            '  static const sub_alarm_white = \'assets/sub/alarm_white.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'),
       });
     });
 
-    test("generate r.dart with invalid package assets", () async {
+    test('generate r.dart with invalid package assets', () async {
       final dir = io.Directory.current.path;
       final shrineCardDark = p.join(dir,
           'packages/flutter_gallery_assets/assets/studies/shrine_card_dark.png');
       final starterCard = p.join(dir,
           'packages/flutter_gallery_assets/assets/studies/starter_card.png');
 
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         '$_pkgName|packages/flutter_gallery_assets/assets/studies/shrine_card_dark.png':
             '123',
         '$_pkgName|packages/flutter_gallery_assets/assets/studies/starter_card.png':
@@ -192,24 +192,24 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($shrineCardDark)\n'
-            '  static const flutter_gallery_assets_assets_studies_shrine_card_dark = "packages/flutter_gallery_assets/assets/studies/shrine_card_dark.png";\n'
+            '  static const flutter_gallery_assets_assets_studies_shrine_card_dark = \'packages/flutter_gallery_assets/assets/studies/shrine_card_dark.png\';\n'
             '\n'
             '  /// ![]($starterCard)\n'
-            '  static const flutter_gallery_assets_assets_studies_starter_card = "packages/flutter_gallery_assets/assets/studies/starter_card.png";\n'
+            '  static const flutter_gallery_assets_assets_studies_starter_card = \'packages/flutter_gallery_assets/assets/studies/starter_card.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'),
       });
     });
 
-    test("generate r.dart with package assets only", () async {
-      await testBuilder(builder, {
+    test('generate r.dart with package assets only', () async {
+      await testBuilder(builder, <String, dynamic>{
         '$_pkgName|lib/main.dart': '',
         '$_pkgName|pubspec.yaml': '''
         dependencies:
@@ -221,40 +221,40 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class FlutterGalleryAssets {\n'
-            '  static const package = "flutter_gallery_assets";\n'
+            '  static const package = \'flutter_gallery_assets\';\n'
             '\n'
-            '  static const assets_studies_shrine_card_dark = "assets/studies/shrine_card_dark.png";\n'
+            '  static const assets_studies_shrine_card_dark = \'assets/studies/shrine_card_dark.png\';\n'
             '\n'
-            '  static const assets_studies_starter_card = "assets/studies/starter_card.png";\n'
+            '  static const assets_studies_starter_card = \'assets/studies/starter_card.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'),
       });
     });
 
-    test("generate r.dart with invalid assets", () async {
+    test('generate r.dart with invalid assets', () async {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         '$_pkgName|assets/.DS_Store': '456',
         ..._pubspecFile
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'),
@@ -262,48 +262,48 @@ void main() {
     });
   });
 
-  group("generate with assets_scanner_options.yaml", () {
-    test("generate nothing path not sub-path of lib/", () async {
-      final optionsFile = io.File("assets_scanner_options.yaml");
-      optionsFile.createSync();
-      optionsFile.writeAsStringSync('path: src/lib');
+  group('generate with assets_scanner_options.yaml', () {
+    test('generate nothing path not sub-path of lib/', () async {
+      final optionsFile = io.File('assets_scanner_options.yaml')
+        ..createSync()
+        ..writeAsStringSync('path: src/lib');
 
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
       }, onLog: (l) {
         expect(l.message,
-            "The custom path in assets_scanner_options.yaml should be sub-path of lib/.");
+            'The custom path in assets_scanner_options.yaml should be sub-path of lib/.');
       });
 
       optionsFile.deleteSync();
     });
 
-    test("generate with path: \"lib/src\"", () async {
+    test('generate with path: \'lib/src\'', () async {
       final dir = io.Directory.current.path;
-      final optionsFile = io.File("assets_scanner_options.yaml");
-      optionsFile.createSync();
-      optionsFile.writeAsStringSync('path: lib/src');
+      final optionsFile = io.File('assets_scanner_options.yaml')
+        ..createSync()
+        ..writeAsStringSync('path: lib/src');
 
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/src/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'
@@ -313,29 +313,29 @@ void main() {
       optionsFile.deleteSync();
     });
 
-    test("generate with path: \"lib/src/sub\"", () async {
+    test('generate with path: \'lib/src/sub\'', () async {
       final dir = io.Directory.current.path;
-      final optionsFile = io.File("assets_scanner_options.yaml");
-      optionsFile.createSync();
-      optionsFile.writeAsStringSync('path: lib/src/sub');
+      final optionsFile = io.File('assets_scanner_options.yaml')
+        ..createSync()
+        ..writeAsStringSync('path: lib/src/sub');
 
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/src/sub/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'
@@ -345,29 +345,29 @@ void main() {
       optionsFile.deleteSync();
     });
 
-    test("generate with className: \"CustomR\"", () async {
+    test('generate with className: \'CustomR\'', () async {
       final dir = io.Directory.current.path;
-      final optionsFile = io.File("assets_scanner_options.yaml");
-      optionsFile.createSync();
-      optionsFile.writeAsStringSync('className: "CustomR"');
+      final optionsFile = io.File('assets_scanner_options.yaml')
+        ..createSync()
+        ..writeAsStringSync('className: \'CustomR\'');
 
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class CustomR {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
             '  /// ![]($pathAlarm)\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
             '  /// ![]($pathArrows)\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'
@@ -377,24 +377,24 @@ void main() {
       optionsFile.deleteSync();
     });
 
-    test("generate with ignoreComment: true", () async {
-      final optionsFile = io.File("assets_scanner_options.yaml");
-      optionsFile.createSync();
-      optionsFile.writeAsStringSync('ignoreComment: true');
+    test('generate with ignoreComment: true', () async {
+      final optionsFile = io.File('assets_scanner_options.yaml')
+        ..createSync()
+        ..writeAsStringSync('ignoreComment: true');
 
-      await testBuilder(builder, {
+      await testBuilder(builder, <String, dynamic>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: {
+      }, outputs: <String, dynamic>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
-            '  static const package = "pkg";\n'
+            '  static const package = \'pkg\';\n'
             '\n'
-            '  static const alarm_white = "assets/alarm_white.png";\n'
+            '  static const alarm_white = \'assets/alarm_white.png\';\n'
             '\n'
-            '  static const arrows = "assets/arrows.png";\n'
+            '  static const arrows = \'assets/arrows.png\';\n'
             '\n'
             '$ignoreForFile\n'
             '}\n'
