@@ -260,6 +260,39 @@ void main() {
             '}\n'),
       });
     });
+
+    test('generate r.dart with assets which not a legal Dart identifier',
+        () async {
+      final dir = io.Directory.current.path;
+      final path1 = p.join(dir, 'assets/2TXsXk.jpg!w1280h1000.jpg');
+      final path2 = p.join(dir, 'assets/aTXsXk.jpg!w1280h1000.jpg');
+      final path3 = p.join(dir, 'assets/?TXsXk.jpg!w1280h1000.jpg');
+      await testBuilder(builder, <String, dynamic>{
+        // ..._assets,
+        '$_pkgName|assets/2TXsXk.jpg!w1280h1000.jpg': '456',
+        '$_pkgName|assets/aTXsXk.jpg!w1280h1000.jpg': '456',
+        '$_pkgName|assets/?TXsXk.jpg!w1280h1000.jpg': '456',
+        ..._pubspecFile
+      }, generateFor: {
+        '$_pkgName|lib/\$lib\$',
+      }, outputs: <String, dynamic>{
+        '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
+            'class R {\n'
+            '  static const package = \'pkg\';\n'
+            '\n'
+            '  /// ![]($path1)\n'
+            '  static const r_2TXsXk_jpg_w1280h1000 = \'assets/2TXsXk.jpg!w1280h1000.jpg\';\n'
+            '\n'
+            '  /// ![]($path2)\n'
+            '  static const aTXsXk_jpg_w1280h1000 = \'assets/aTXsXk.jpg!w1280h1000.jpg\';\n'
+            '\n'
+            '  /// ![]($path3)\n'
+            '  static const r__TXsXk_jpg_w1280h1000 = \'assets/?TXsXk.jpg!w1280h1000.jpg\';\n'
+            '\n'
+            '$ignoreForFile\n'
+            '}\n'),
+      });
+    });
   });
 
   group('generate with assets_scanner_options.yaml', () {

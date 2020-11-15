@@ -1,3 +1,7 @@
+## 1.2.0
+
+* Ensure constant naming conforms the dart variable naming rules
+
 ## 1.1.2
 
 * Remove unnecessary `analyzer` package dependencies
