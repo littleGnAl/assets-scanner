@@ -1,3 +1,8 @@
+## 1.1.2
+
+* Remove unnecessary `analyzer` package dependencies
+* Bump packages versions
+
 ## 1.1.1
 Add more `ignore_for_file` rules for the generated file.
 
