@@ -25,7 +25,10 @@ class R {
 }
 ```
 
-**NOTE:** For [package assets](https://flutter.dev/docs/development/ui/assets-and-images#bundling-of-package-assets), it will generate another class according to the package name.
+> **NOTE:** 
+> * For [package assets](https://flutter.dev/docs/development/ui/assets-and-images#bundling-of-package-assets), it will generate another class according to the package name.
+>
+> * If the asset's name is not a legal dart identifier, the illegal characters will be converted to `_`, .e.g, the asset name `2TXsXk.jpg!w1280h1000.jpg` will generate the property name `r_2TXsXk_jpg_w1280h1000`.
 
 Now, you can preview images assets by hovering to the constants:
 

@@ -75,6 +75,16 @@ const ignoreForFile = '// ignore_for_file: '
     'constant_identifier_names,'
     'prefer_double_quotes';
 
+/// Borrow from https://github.com/dart-lang/sdk/blob/c3f96e863ff402be32aa7acf51ee05b7de0b9841/pkg/analyzer/lib/src/lint/util.dart#L15
+final _identifier = RegExp(r'^([(_|$)a-zA-Z]+([_a-zA-Z0-9])*)$');
+
+final _identifierStart = RegExp(r'^([(_|$)a-zA-Z]+)');
+
+final _invalidIdentifierCharecaters = RegExp(r'[^_a-zA-Z0-9]+');
+
+const _propertyNamePrefix = 'r_';
+
+
 /// [AssetsBuilder] will get the assets path from `pubspec.yaml` and generate
 /// a `r.dart` with `const` properties of assets path by default. You can custom
 /// it by adding an `assets_scanner_options.yaml` file, and the supported key
@@ -147,6 +157,34 @@ class AssetsBuilder extends Builder {
     return rFileContent.toString();
   }
 
+  String _createPropertyName(String assetPath) {
+    var propertyName = assetPath.substring(
+        assetPath.indexOf('/') + 1, assetPath.lastIndexOf('.'));
+    // On iOS it will create a .DS_Store file in assets folder which will
+    // cause an empty property name, so we skip it.
+    if (propertyName.isEmpty) return propertyName;
+
+    if (_identifier.hasMatch(propertyName)) {
+      // Ignore the parent path to make the property name shorter.
+      propertyName = propertyName.replaceAll('/', '_');
+    } else {
+      final shouldAddPrefix = !_identifierStart.hasMatch(propertyName);
+
+      propertyName = propertyName.replaceAllMapped(
+        _invalidIdentifierCharecaters,
+        (match) {
+          return '_';
+        },
+      );
+
+      if (shouldAddPrefix) {
+        propertyName = _propertyNamePrefix + propertyName;
+      }
+    }
+
+    return propertyName;
+  }
+
   Future<String> _createRClass(YamlMap pubspecYamlMap, BuildStep buildStep,
       _AssetsScannerOptions options) async {
     final assetPaths =
@@ -159,10 +197,7 @@ class AssetsBuilder extends Builder {
         ..writeln('  static const package = \'${buildStep.inputId.package}\';')
         ..writeln();
       for (final assetPath in assetPaths) {
-        // Ignore the parent path to make the property name shorter.
-        final propertyName = assetPath
-            .substring(assetPath.indexOf('/') + 1, assetPath.lastIndexOf('.'))
-            .replaceAll('/', '_');
+        final propertyName = _createPropertyName(assetPath);
 
         if (propertyName.isNotEmpty) {
           if (!options.ignoreComment) {
@@ -289,12 +324,10 @@ class AssetsBuilder extends Builder {
       BuildStep buildStep, YamlMap pubspecYamlMap) async {
     final globList = _createAssetsListGlob(pubspecYamlMap);
     final assetsSet = <AssetId>{};
-    // On iOS it will create a .DS_Store file in assets folder, so use
-    // the regular expression to match the valid assets path.
-    final rexp = RegExp(r'^([a-zA-Z0-9]+\/)*([a-zA-Z0-9]+.)+\.[a-z]+');
+
     for (final glob in globList) {
       final assets = await buildStep.findAssets(glob).toList();
-      assetsSet.addAll(assets.where((e) => rexp.hasMatch(e.path)));
+      assetsSet.addAll(assets);
     }
 
     return assetsSet.map((e) => e.path).toList();
