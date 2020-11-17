@@ -3,7 +3,7 @@ set -e
 set -x
 
 output=$(dartfmt ./ -n)
-if [ -z $output] then 
+if [[ -z $output ]]; then 
     exit 0
 else
     exit 1

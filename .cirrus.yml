@@ -6,6 +6,7 @@ container:
 check_task:
   flutter_doctor_script: flutter doctor -v
   flutter_analyze_script:
+    - bash scripts/dartfmt_check.sh 
     - flutter packages get
     - cd example
     - flutter packages pub run build_runner build --delete-conflicting-outputs

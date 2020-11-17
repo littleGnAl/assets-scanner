@@ -1,3 +1,7 @@
+## 1.2.0+1
+
+* Fix dart format
+
 ## 1.2.0
 
 * Ensure constant naming conforms the dart variable naming rules

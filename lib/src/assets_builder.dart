@@ -84,7 +84,6 @@ final _invalidIdentifierCharecaters = RegExp(r'[^_a-zA-Z0-9]+');
 
 const _propertyNamePrefix = 'r_';
 
-
 /// [AssetsBuilder] will get the assets path from `pubspec.yaml` and generate
 /// a `r.dart` with `const` properties of assets path by default. You can custom
 /// it by adding an `assets_scanner_options.yaml` file, and the supported key
