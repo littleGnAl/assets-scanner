@@ -1,3 +1,8 @@
+## 2.0.0
+
+* Migrating to null-safety
+* Rename `lib/assets_scanner_builder.dart` to `lib/assets_scanner.dart`
+
 ## 1.2.0+1
 
 * Fix dart format
