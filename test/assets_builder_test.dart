@@ -13,7 +13,7 @@
 // limitations under the License.
 import 'dart:io' as io;
 
-import 'package:assets_scanner/assets_scanner_builder.dart';
+import 'package:assets_scanner/assets_scanner.dart';
 import 'package:assets_scanner/src/assets_builder.dart';
 import 'package:build/build.dart';
 import 'package:build_test/build_test.dart';
@@ -37,29 +37,29 @@ const _pubspecFile = {
 };
 
 void main() {
-  Builder builder;
+  late Builder builder;
   setUp(() {
     builder = assetScannerBuilder(BuilderOptions.empty);
   });
 
   group('AssetsBuilder default', () {
     test('generate nothing if no assets values in pubspec.yaml', () async {
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         '$_pkgName|pubspec.yaml': '',
         ..._assets,
-      }, outputs: <String, dynamic>{});
+      }, outputs: <String, Object>{});
     });
 
     test('generate r.dart', () async {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         ..._pubspecFile
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -79,7 +79,7 @@ void main() {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         '$_pkgName|pubspec.yaml': '''
         flutter:
@@ -93,7 +93,7 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -114,13 +114,13 @@ void main() {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         '$_pkgName|assets/sub/alarm_white.png': '123',
         ..._pubspecFile
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -141,7 +141,7 @@ void main() {
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
       final subPathAlarm = p.join(dir, 'assets/sub/alarm_white.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         '$_pkgName|assets/sub/alarm_white.png': '123',
         '$_pkgName|pubspec.yaml': '''
@@ -152,7 +152,7 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -178,7 +178,7 @@ void main() {
       final starterCard = p.join(dir,
           'packages/flutter_gallery_assets/assets/studies/starter_card.png');
 
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         '$_pkgName|packages/flutter_gallery_assets/assets/studies/shrine_card_dark.png':
             '123',
         '$_pkgName|packages/flutter_gallery_assets/assets/studies/starter_card.png':
@@ -192,7 +192,7 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -209,7 +209,7 @@ void main() {
     });
 
     test('generate r.dart with package assets only', () async {
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         '$_pkgName|lib/main.dart': '',
         '$_pkgName|pubspec.yaml': '''
         dependencies:
@@ -221,7 +221,7 @@ void main() {
         ''',
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class FlutterGalleryAssets {\n'
             '  static const package = \'flutter_gallery_assets\';\n'
@@ -239,13 +239,13 @@ void main() {
       final dir = io.Directory.current.path;
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         '$_pkgName|assets/.DS_Store': '456',
         ..._pubspecFile
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -267,7 +267,7 @@ void main() {
       final path1 = p.join(dir, 'assets/2TXsXk.jpg!w1280h1000.jpg');
       final path2 = p.join(dir, 'assets/aTXsXk.jpg!w1280h1000.jpg');
       final path3 = p.join(dir, 'assets/?TXsXk.jpg!w1280h1000.jpg');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         // ..._assets,
         '$_pkgName|assets/2TXsXk.jpg!w1280h1000.jpg': '456',
         '$_pkgName|assets/aTXsXk.jpg!w1280h1000.jpg': '456',
@@ -275,7 +275,7 @@ void main() {
         ..._pubspecFile
       }, generateFor: {
         '$_pkgName|lib/\$lib\$',
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -301,7 +301,7 @@ void main() {
         ..createSync()
         ..writeAsStringSync('path: src/lib');
 
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
@@ -322,12 +322,12 @@ void main() {
 
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/src/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -354,12 +354,12 @@ void main() {
 
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/src/sub/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'
@@ -386,12 +386,12 @@ void main() {
 
       final pathAlarm = p.join(dir, 'assets/alarm_white.png');
       final pathArrows = p.join(dir, 'assets/arrows.png');
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class CustomR {\n'
             '  static const package = \'pkg\';\n'
@@ -415,12 +415,12 @@ void main() {
         ..createSync()
         ..writeAsStringSync('ignoreComment: true');
 
-      await testBuilder(builder, <String, dynamic>{
+      await testBuilder(builder, <String, Object>{
         ..._assets,
         ..._pubspecFile,
       }, generateFor: {
         '$_pkgName|lib/\$lib\$'
-      }, outputs: <String, dynamic>{
+      }, outputs: <String, Object>{
         '$_pkgName|lib/r.dart': decodedMatches('$rFileHeader\n'
             'class R {\n'
             '  static const package = \'pkg\';\n'

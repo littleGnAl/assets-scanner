@@ -27,9 +27,9 @@ class _AssetsScannerOptions {
   factory _AssetsScannerOptions() => const _AssetsScannerOptions._();
   factory _AssetsScannerOptions.fromYamlMap(YamlMap map) {
     return _AssetsScannerOptions._(
-        path: map['path'] as String ?? 'lib',
-        className: map['className'] as String ?? 'R',
-        ignoreComment: map['ignoreComment'] as bool ?? false);
+        path: map['path'] as String? ?? 'lib',
+        className: map['className'] as String? ?? 'R',
+        ignoreComment: map['ignoreComment'] as bool? ?? false);
   }
 
   /// The path where the `r.dart` file locate. Note that the `path` should be
@@ -117,7 +117,7 @@ class AssetsBuilder extends Builder {
     }
 
     final rClass =
-        await _generateRFileContent(buildStep, pubspecYamlMap, options);
+        await _generateRFileContent(buildStep, pubspecYamlMap!, options);
     if (rClass.isEmpty) return;
 
     final dir = options.path.startsWith('lib') ? options.path : 'lib';
@@ -216,8 +216,8 @@ class AssetsBuilder extends Builder {
 
   String _createPackageAssetsClass(YamlMap pubspecYamlMap) {
     final assetPaths = _getAssetsListFromPubspec(pubspecYamlMap);
-    Set<String> pubspecDependencies;
-    Map<String, Map<String, String>> packageAssetPaths;
+    Set<String>? pubspecDependencies;
+    Map<String, Map<String, String>>? packageAssetPaths;
     for (final assetPath in assetPaths) {
       // Handle the package assets, more detail about the directory structure:
       // https://flutter.dev/docs/development/ui/assets-and-images#bundling-of-package-assets
@@ -273,10 +273,10 @@ class AssetsBuilder extends Builder {
     return packageAssetPathsClass.toString();
   }
 
-  Future<YamlMap> _createPubspecYampMap(BuildStep buildStep) async {
+  Future<YamlMap?> _createPubspecYampMap(BuildStep buildStep) async {
     final pubspecAssetId = AssetId(buildStep.inputId.package, 'pubspec.yaml');
     final pubspecContent = await buildStep.readAsString(pubspecAssetId);
-    return loadYaml(pubspecContent) as YamlMap;
+    return loadYaml(pubspecContent) as YamlMap?;
   }
 
   Set<String> _getPackagesFromPubspec(YamlMap pubspecYamlMap) {
@@ -337,7 +337,7 @@ class AssetsBuilder extends Builder {
     final optionsFile = File('assets_scanner_options.yaml');
     if (optionsFile.existsSync()) {
       final optionsContent = optionsFile.readAsStringSync();
-      if (optionsContent?.isNotEmpty ?? false) {
+      if (optionsContent.isNotEmpty) {
         return _AssetsScannerOptions.fromYamlMap(
             loadYaml(optionsContent) as YamlMap);
       }
